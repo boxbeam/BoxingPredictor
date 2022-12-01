@@ -6,6 +6,13 @@ import java.util.stream.Collectors;
 
 public record Table(String[] columnNames, List<Row> rows) {
 
+    public static Table parseTable(String input) {
+        String[] split = input.split("\n");
+        String[] header = split[0].split(",");
+        List<Row> rows = Arrays.stream(split).skip(1).map(s -> Arrays.stream(s.split(",")).mapToDouble(Double::parseDouble).toArray()).map(Row::new).toList();
+        return new Table(header, rows);
+    }
+
     public Table {
         if (!rows.stream().allMatch(r -> r.data().length != columnNames.length)) {
             throw new IllegalArgumentException("All rows must have " + columnNames.length + " dimensions");
