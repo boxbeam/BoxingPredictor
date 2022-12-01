@@ -21,4 +21,8 @@ public record Table(String[] columnNames, List<Row> rows) {
         return header + "\n" + table;
     }
 
+    public int columns() {
+        return columnNames.length;
+    }
+
 }
